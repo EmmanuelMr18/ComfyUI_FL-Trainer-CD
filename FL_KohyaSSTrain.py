@@ -12,6 +12,7 @@ class FL_KohyaSSTrain:
 
     @classmethod
     def INPUT_TYPES(s):
+        print("hellooooooooooooooooooooo1")
         loras = [
             "latest",
             "empty",
@@ -63,7 +64,7 @@ class FL_KohyaSSTrain:
 
         train_config_templates = sorted(
             train_config_templates, key=priority_sort)
-
+        print("hellooooooooooooooooooooo2")
         return {
             "required": {
                 "workspace_config": ("FL_TT_SS_WorkspaceConfig",),
@@ -91,6 +92,7 @@ class FL_KohyaSSTrain:
     CATEGORY = "🏵️Fill Nodes/Training"
 
     def start(self, **kwargs):
+        print("hellooooooooooooooooooooo3")
         from . import FL_train_core
         importlib.reload(FL_train_core)
         return FL_train_core.FL_KohyaSSTrain_call(kwargs)
