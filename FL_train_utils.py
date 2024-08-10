@@ -1048,6 +1048,8 @@ class HSubprocess:
             logger.info(f"Subprocess PID: {self.process_instance_pid}")
             try:
                 stdout, stderr = process.communicate()
+                logger.info(f"stdout {stdout}. stderr {stderr}")
+
             except subprocess.TimeoutExpired as exc:
                 logger.info("FL_train_utils 1053 {exc}")
                 process.kill()
