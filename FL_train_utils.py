@@ -1045,7 +1045,7 @@ class HSubprocess:
         ) as process:
             self.process_instance = process
             self.process_instance_pid = process.pid
-            print(f"Subprocess PID: {self.process_instance_pid}")
+            logger.info(f"Subprocess PID: {self.process_instance_pid}")
             try:
                 stdout, stderr = process.communicate()
             except subprocess.TimeoutExpired as exc:
@@ -1061,6 +1061,8 @@ class HSubprocess:
                 logger.info("FL_train_utils 1062",e)
                 raise
             retcode = process.poll()
+            logger.info("FL_train_utils 1064",retcode)
+
             if retcode != 0:
                 raise subprocess.CalledProcessError(retcode, process.args)
 

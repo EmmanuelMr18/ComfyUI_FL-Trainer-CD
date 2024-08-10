@@ -432,6 +432,7 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
         try:
             comfy.model_management.throw_exception_if_processing_interrupted()
         except Exception as e:
+            logger.info("FL_train_core 435 ", e)
             stop_server()
             if process_instance is not None:
                 process_instance.stop()
@@ -452,8 +453,10 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
                 pb.update(
                     int(global_step), int(total_steps), ("JPEG", xy_img, max_side))
             else:
+                logger.info(log)
                 print(f"LOG: {log}")
         except Exception as e:
+            logger.info(f"LOG: {log} e: {e} ")
             print(f"LOG: {log} e: {e} ")
             print(f"stack: {traceback.format_exc()}")
         return is_running
