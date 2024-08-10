@@ -575,10 +575,14 @@ def generate_kohya_ss_config(args):
     # raise Exception(f"FL_KohyaSSUseConfig_call: {args}")
     return config
 
+from logging import basicConfig, getLogger
 
+
+logger = getLogger("comfy-deploy")
+basicConfig(level="INFO")  # You can adjust the logging level as needed
 def FL_KohyaSSTrain_call(args={}):
 
-    print("executing: FL_KohyaSSTrain_call")
+    logger.info("executing: FL_KohyaSSTrain_call")
     args = args.copy()
     workspace_config = args.get("workspace_config").copy()
     base_lora = args.get("base_lora", "empty")

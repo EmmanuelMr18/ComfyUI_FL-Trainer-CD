@@ -52,9 +52,9 @@ class FL_Kohya_EasyTrain:
 
     def start(self, lora_name, resolution, train_config_template, num_repeats, image_directory, ckpt_name,
               sample_prompt, xformers, lowvram, learning_rate, epochs, input_captions, input_images):
-        print("Starting easy train node")
+        logger.info("Starting easy train node")
         importlib.reload(FL_train_core)
-        print("imported a library")
+        logger.info("imported a library")
 
 
         if not lora_name.strip():
@@ -73,7 +73,7 @@ class FL_Kohya_EasyTrain:
             "workspace_name": lora_name,
             "workspace_dir": workspace_dir,
         }
-        print("loading configuration to train the lora")
+        logger.info("loading configuration to train the lora")
         # Load images and set up dataset configuration
         images, captions = self.load_images(image_directory, input_captions, input_images)
         dataset_config = FL_train_core.FL_ImageSelecter_call({
