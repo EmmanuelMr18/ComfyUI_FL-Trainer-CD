@@ -10,6 +10,10 @@ import json
 import importlib
 import argparse
 import toml
+from logging import basicConfig, getLogger
+
+logger = getLogger("comfy-deploy")
+basicConfig(level="INFO") 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 kohya_ss_dir = os.path.join(current_dir, "kohya_ss_lora")
@@ -169,8 +173,12 @@ def LOG(log):
         resp = requests.request("post", f"http://127.0.0.1:{master_port}/log", data=json.dumps(log), headers={
                                 "Content-Type": "application/json"})
         if resp.status_code != 200:
+            logger.info(f"LOG failed: {resp.text}")
+
             print(f"LOG failed: {resp.text}")
     except Exception as e:
+        logger.info(f"LOG failed: {e}")
+
         print(f"LOG failed: {e}")
 
 if __name__ == "__main__":
