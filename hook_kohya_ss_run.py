@@ -169,6 +169,8 @@ func_map = {
 import requests
 
 def LOG(log):
+    logger.info(f"LOG failed: {log}")
+
     try:
         resp = requests.request("post", f"http://127.0.0.1:{master_port}/log", data=json.dumps(log), headers={
                                 "Content-Type": "application/json"})
@@ -192,7 +194,7 @@ if __name__ == "__main__":
 
         master_port = args.master_port
 
-        print(f"master_port = {master_port}")
+        logger.info(f"master_port = {master_port}")
 
         sys_path = args.sys_path
         if sys_path == "":
@@ -209,12 +211,12 @@ if __name__ == "__main__":
             global_config = json.loads(_global_config)
 
         train_config = global_config.get("train_config")
-        print(f"""=======================train_config=======================
+        logger.info(f"""=======================train_config=======================
     {json.dumps(train_config, indent=4, ensure_ascii=False)}
             """)
 
         other_config = global_config.get("other_config", {})
-        print(f"""=======================other_config=======================
+        logger.info(f"""=======================other_config=======================
     {json.dumps(other_config, indent=4, ensure_ascii=False)}
             """)
 
@@ -222,7 +224,7 @@ if __name__ == "__main__":
         if train_func == "":
             raise Exception("train_func is empty")
 
-        print(f"train_func = {train_func}")
+        logger.info(f"train_func = {train_func}")
 
         time.sleep(2)
         LOG({
@@ -231,6 +233,6 @@ if __name__ == "__main__":
 
         func_map[train_func]()
     except Exception as e:
-        print(f"Exception: {e}")
+        logger.info(f"Exception: {e}")
         if sys.platform == "win32":
             input("Press Enter to continue...")
