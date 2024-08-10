@@ -577,6 +577,8 @@ def generate_kohya_ss_config(args):
 
 
 def FL_KohyaSSTrain_call(args={}):
+
+    print("executing: FL_KohyaSSTrain_call")
     args = args.copy()
     workspace_config = args.get("workspace_config").copy()
     base_lora = args.get("base_lora", "empty")

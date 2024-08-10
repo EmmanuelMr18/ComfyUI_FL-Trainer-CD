@@ -63,7 +63,7 @@ class FL_Kohya_EasyTrain:
             "workspace_name": lora_name,
             "workspace_dir": workspace_dir,
         }
-
+        print("loading configuration to train the lora")
         # Load images and set up dataset configuration
         images, captions = self.load_images(image_directory, input_captions, input_images)
         dataset_config = FL_train_core.FL_ImageSelecter_call({
@@ -178,3 +178,4 @@ class FL_Kohya_EasyTrain:
         # Ensure the repo directory is in sys.path
         if kohya_ss_lora_dir not in sys.path:
             sys.path.append(kohya_ss_lora_dir)
+        print("kohya ss clonned successfuly")
