@@ -6,8 +6,13 @@ from .FL_train_utils import Utils
 import subprocess
 import sys
 from .utils import transformImages
+from logging import basicConfig, getLogger
 
+
+logger = getLogger("comfy-deploy")
+basicConfig(level="INFO")  # You can adjust the logging level as needed
 class FL_Kohya_EasyTrain:
+    logger.info("first start - custom log")
     print("first start - custom log")
 
     train_config_template_dir = os.path.join(
