@@ -1032,7 +1032,7 @@ class HSubprocess:
                 psutil.Process(self.process_instance_pid).terminate()
             except Exception as e:
                 print(e)
-                logger.info("FL_train_utils 1036", e)
+                logger.info(f"FL_train_utils 1036 {e}")
 
 
             self.process_instance_pid = None
@@ -1049,7 +1049,7 @@ class HSubprocess:
             try:
                 stdout, stderr = process.communicate()
             except subprocess.TimeoutExpired as exc:
-                logger.info("FL_train_utils 1053", exc)
+                logger.info("FL_train_utils 1053 {exc}")
                 process.kill()
                 if self._mswindows:
                     exc.stdout, exc.stderr = process.communicate()
@@ -1058,10 +1058,10 @@ class HSubprocess:
                 raise
             except Exception as e:
                 process.wait()
-                logger.info("FL_train_utils 1062",e)
+                logger.info("FL_train_utils 1062 {e}")
                 raise
             retcode = process.poll()
-            logger.info("FL_train_utils 1064",retcode)
+            logger.info(f"FL_train_utils 1064 {retcode}")
 
             if retcode != 0:
                 raise subprocess.CalledProcessError(retcode, process.args)

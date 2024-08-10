@@ -432,7 +432,7 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
         try:
             comfy.model_management.throw_exception_if_processing_interrupted()
         except Exception as e:
-            logger.info("FL_train_core 435 ", e)
+            logger.info("FL_train_core 435 {e}")
             stop_server()
             if process_instance is not None:
                 process_instance.stop()
@@ -482,7 +482,7 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
         process_instance = HSubprocess(
             cmd_list, screen_name=screen_name)
         process_instance.wait()
-        time.sleep(60)
+        time.sleep(6)
         logger.info(process_instance)
 
         stop_server()
@@ -490,7 +490,7 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
     except Exception as e:
         stop_server()
         is_running = False
-        logger.info("train core error:", e)
+        logger.info("train core error: {e}")
 
         raise Exception(f"")
 
