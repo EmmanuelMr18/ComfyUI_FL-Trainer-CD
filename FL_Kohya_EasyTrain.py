@@ -5,6 +5,7 @@ import folder_paths
 from .FL_train_utils import Utils
 import subprocess
 import sys
+from .utils import transformImages
 
 class FL_Kohya_EasyTrain:
     train_config_template_dir = os.path.join(
@@ -29,6 +30,10 @@ class FL_Kohya_EasyTrain:
                 "lowvram": (["enable", "disable"], {"default": "disable"}),
                 "learning_rate": ("FLOAT", {"default": 0.0001, "min": 0.0000001, "max": 0.1, "step": 0.0000001}),
                 "epochs": ("INT", {"default": 10, "min": 1, "max": 1000}),
+            },
+             "optional": {
+                "input_captions": ("STRING", {"forceInput": True}),
+                "input_images": ("IMAGE",),
             }
         }
 
@@ -39,7 +44,7 @@ class FL_Kohya_EasyTrain:
     CATEGORY = "🏵️Fill Nodes/Training"
 
     def start(self, lora_name, resolution, train_config_template, num_repeats, image_directory, ckpt_name,
-              sample_prompt, xformers, lowvram, learning_rate, epochs):
+              sample_prompt, xformers, lowvram, learning_rate, epochs, input_captions, input_images):
         importlib.reload(FL_train_core)
 
         if not lora_name.strip():
@@ -60,7 +65,7 @@ class FL_Kohya_EasyTrain:
         }
 
         # Load images and set up dataset configuration
-        images, captions = self.load_images(image_directory)
+        images, captions = self.load_images(image_directory, input_captions, input_images)
         dataset_config = FL_train_core.FL_ImageSelecter_call({
             "workspace_config": workspace_config,
             "images": images,
@@ -121,7 +126,7 @@ class FL_Kohya_EasyTrain:
 
         return FL_train_core.FL_KohyaSSTrain_call(train_args)
 
-    def load_images(self, directory):
+    def load_images(self, directory, input_captions, input_images):
         images = []
         captions = []
         if os.path.exists(directory):
@@ -134,6 +139,10 @@ class FL_Kohya_EasyTrain:
                     with open(caption_path, 'r', encoding='utf-8') as f:
                         captions.append(f.read().strip())
                     images.append(Utils.pil2tensor(Utils.loadImage(image_path)))
+        else:
+            images = transformImages(input_images)
+            captions = input_captions
+
         return Utils.list_tensor2tensor(images), captions
 
     def clone_or_update_repo(self):
