@@ -2,6 +2,7 @@ import importlib
 from .FL_train_utils import Utils
 from . import FL_train_core
 import os
+from .utils import transformImages
 
 class FL_KohyaSSDatasetConfig:
     @classmethod
@@ -34,4 +35,8 @@ class FL_KohyaSSDatasetConfig:
 
     def start(self, **kwargs):
         importlib.reload(FL_train_core)
+        
+        input_images = kwargs.pop('images', None)
+        kwargs['images'] = transformImages(input_images)
+
         return FL_train_core.FL_ImageSelecter_call(kwargs)
