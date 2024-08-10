@@ -8,6 +8,8 @@ import sys
 from .utils import transformImages
 
 class FL_Kohya_EasyTrain:
+    print("first start - custom log")
+
     train_config_template_dir = os.path.join(
         os.path.dirname(__file__), "configs", "kohya_ss_lora"
     )
