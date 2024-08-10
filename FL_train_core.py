@@ -477,6 +477,7 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
         process_instance = HSubprocess(
             cmd_list, screen_name=screen_name)
         process_instance.wait()
+        time.sleep(60)
         logger.info(process_instance)
 
         stop_server()
