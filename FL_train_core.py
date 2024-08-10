@@ -402,7 +402,7 @@ def get_sample_images(workspace_dir, output_name):
 
 
 def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, trainer_func, use_screen=False):
-
+    logger.info("helloooo1")
     train_config_file = os.path.join(workspace_dir, "config.json")
 
     exec_pyfile = os.path.join(os.path.dirname(
@@ -423,6 +423,8 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
     import traceback
 
     import comfy.model_management
+
+    logger.info("helloooo2")
 
     stop_server = None
 
@@ -475,12 +477,15 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
         process_instance = HSubprocess(
             cmd_list, screen_name=screen_name)
         process_instance.wait()
+        logger.info(process_instance)
 
         stop_server()
         is_running = False
     except Exception as e:
         stop_server()
         is_running = False
+        logger.info("train core error:", e)
+
         raise Exception(f"")
 
 
@@ -651,7 +656,7 @@ def FL_KohyaSSTrain_call(args={}):
         json.dump(config, f, indent=4, ensure_ascii=False)
 
     output_name = config["train_config"].get("output_name")
-
+    logger.info("executin hook function : FL_KohyaSSTrain_call")
     if train_type == "lora_sd1_5":
         run_hook_kohya_ss_run_file(
             workspace_dir, output_name, kohya_ss_tool_dir, "run_lora_sd1_5")
