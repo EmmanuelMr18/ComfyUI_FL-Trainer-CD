@@ -25,6 +25,10 @@ from tqdm import tqdm
 import requests
 import comfy.utils
 import platform
+from logging import basicConfig, getLogger
+
+logger = getLogger("comfy-deploy")
+basicConfig(level="INFO")  # You can adjust the logging level as needed
 
 
 CACHE_POOL = {}
@@ -779,6 +783,7 @@ class Utils:
 
         port = Utils.get_free_port()
         is_running = {"value": True}
+        logger.info(f"is running: {is_running}")
 
         def stop_server():
             is_running.update({"value": False})
@@ -792,6 +797,7 @@ class Utils:
                 content_length = int(self.headers['Content-Length'])
                 post_data = self.rfile.read(content_length)
                 data = json.loads(post_data)
+                logger.info(f"server post: {data}")
                 if reader(data) == False:
                     stop_server()
 
@@ -802,12 +808,13 @@ class Utils:
 
         def serve_forever():
             try:
-                print(
+                logger.info(
                     "===========================httpd.serve_forever() start=======================================")
                 httpd.serve_forever()
             except Exception as e:
+                logger.info(f"http server error: {e}")
                 pass
-            print(
+            logger.info(
                 "===========================httpd.serve_forever() end=======================================")
         threading.Thread(target=serve_forever).start()
 
@@ -974,10 +981,7 @@ class Utils:
                 folders.append(os.path.join(root, dir))
         return folders
 
-from logging import basicConfig, getLogger
 
-logger = getLogger("comfy-deploy")
-basicConfig(level="INFO")  # You can adjust the logging level as needed
 
 class HSubprocess:
     process_instance = None
