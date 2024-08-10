@@ -974,6 +974,10 @@ class Utils:
                 folders.append(os.path.join(root, dir))
         return folders
 
+from logging import basicConfig, getLogger
+
+logger = getLogger("comfy-deploy")
+basicConfig(level="INFO")  # You can adjust the logging level as needed
 
 class HSubprocess:
     process_instance = None
@@ -993,6 +997,7 @@ class HSubprocess:
             try:
                 subprocess.check_call(["screen", "-v"])
             except Exception as e:
+                logger.info("Please install screen first.")
                 raise Exception("Please install screen first.")
 
             screen_cmd = ["screen", "-R", screen_name, "-m", ]
@@ -1027,6 +1032,8 @@ class HSubprocess:
                 psutil.Process(self.process_instance_pid).terminate()
             except Exception as e:
                 print(e)
+                logger.info("FL_train_utils 1036", e)
+
 
             self.process_instance_pid = None
 
@@ -1042,6 +1049,7 @@ class HSubprocess:
             try:
                 stdout, stderr = process.communicate()
             except subprocess.TimeoutExpired as exc:
+                logger.info("FL_train_utils 1053", exc)
                 process.kill()
                 if self._mswindows:
                     exc.stdout, exc.stderr = process.communicate()
@@ -1050,6 +1058,7 @@ class HSubprocess:
                 raise
             except Exception as e:
                 process.wait()
+                logger.info("FL_train_utils 1062",e)
                 raise
             retcode = process.poll()
             if retcode != 0:

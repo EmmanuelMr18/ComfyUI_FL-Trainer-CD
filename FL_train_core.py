@@ -439,6 +439,8 @@ def run_hook_kohya_ss_run_file(workspace_dir, output_name, kohya_ss_tool_dir, tr
 
         try:
             resp = log
+            logger.info(log)
+            
             if resp.get("type") == "sample_images":
                 global_step = resp.get("global_step")
                 xy_img = get_sample_images(workspace_dir, output_name)
