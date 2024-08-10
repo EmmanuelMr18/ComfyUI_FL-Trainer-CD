@@ -45,7 +45,10 @@ class FL_Kohya_EasyTrain:
 
     def start(self, lora_name, resolution, train_config_template, num_repeats, image_directory, ckpt_name,
               sample_prompt, xformers, lowvram, learning_rate, epochs, input_captions, input_images):
+        print("Starting easy train node")
         importlib.reload(FL_train_core)
+        print("imported a library")
+
 
         if not lora_name.strip():
             raise ValueError("LoRA name is required. Please provide a name for your LoRA.")
